@@ -57,7 +57,7 @@ export default class DetailsComponent extends Component {
         if (this.state.detailsData) {
             return (
                 <View style={styles.container}>
-                    <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
+                   
                     <View style={styles.complexity}>
 
                         <Text style={styles.complexText} >
@@ -93,7 +93,8 @@ export default class DetailsComponent extends Component {
             )
         }
         else {
-            return <View></View>
+            return <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
+          
         }
     }
 }
