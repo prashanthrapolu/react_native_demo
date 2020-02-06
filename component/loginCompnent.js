@@ -29,6 +29,8 @@ export default class LoginComponent extends Component {
         <View style={styles.container}>
             <View style={styles.topView}>
                 <Text style={styles.loginTitle}> Login </Text>
+                <Text style={{fontSize:15}}> Login to continiue </Text>
+
             </View>
             <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
             <View style={styles.middleView}>

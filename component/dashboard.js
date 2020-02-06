@@ -48,36 +48,51 @@ export default class DashboardComponent extends Component {
     }
 
     render() {
-        return (
-            <ScrollView>
+        if (this.state.recpelist.length != 0) {
+            return (
+                // <ScrollView>
+                <View style={styles.container}>
+
+                    <View style={styles.btn_custom}>
+
+
+                        <TouchableOpacity>
+                            <Text style={styles.btn} onPress={() => this.props.navigation.navigate('Add', { token: this.state.token })}>Add Recipe</Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+                    <View>
+                        <FlatList
+                            data={this.state.recpelist}
+
+                            keyExtractor={item => item.recipeId}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={{ padding: 10 }}>
+                                        <Image source={{ uri: item.photo }} style={{ width: '100%', height: 150, borderRadius: 10 }} />
+                                        <Text style={styles.item} onPress={() => this.props.navigation.navigate('Details', { data: item, token: this.state.token })} >{item.name}</Text>
+                                    </View>
+                                )
+                            }
+                            }
+                        />
+                    </View>
+                </View>
+
+            )
+        }
+        else {
+            return (
                 <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
-                <View style={styles.btn_custom}>
-                    <TouchableOpacity>
-                        <Text style={styles.btn} onPress={() => this.props.navigation.navigate('Add', { token: this.state.token })}>Add</Text>
-                    </TouchableOpacity>
-                </View>
-                <View>
-                    <FlatList
-                        data={this.state.recpelist}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{ padding: 10 }}>
-                                    <Image source={{ uri: item.photo }} style={{ width: '100%', height: 150, borderRadius: 10 }} />
-                                    <Text style={styles.item} onPress={() => this.props.navigation.navigate('Details', { data: item, token: this.state.token })} >{item.name}</Text>
-                                </View>
-                            )
-                        }
-                        }
-                    />
-                </View>
-            </ScrollView>
-        )
+            )
+        }
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 22
+
     },
     item: {
         padding: 10,
@@ -87,19 +102,18 @@ const styles = StyleSheet.create({
 
     btn: {
         fontSize: 20,
-        color: 'blue'
+        color: 'blue',
+        textAlign: "right"
 
     },
 
     btn_custom: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignContent: 'flex-end',
-        justifyContent: 'flex-end',
-        display: 'flex',
+        flex: 2,
+        padding: 30,
         flexDirection: 'row',
-        borderColor: 'yellow',
-        fontWeight: 'bold',
-        padding: 10
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+
+
     }
 })

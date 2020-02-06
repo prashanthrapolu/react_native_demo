@@ -30,7 +30,7 @@ export default class AddReciepeComponent extends Component {
 
     }
 
-   
+
 
     updateTagState = (state) => {
 
@@ -43,14 +43,17 @@ export default class AddReciepeComponent extends Component {
     };
 
     submit = () => {
+    ;
+        console.log("=======-----+++++++++");
 
-        console.log(this.state);
 
         fetch('http://35.160.197.175:3006/api/v1/recipe/add',
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.state.token
+
                 },
                 body: JSON.stringify({
                     'name': this.state.name,
@@ -61,16 +64,17 @@ export default class AddReciepeComponent extends Component {
                     'ytUrl': this.state.ytUrl,
                 })
             }).then((response) => {
+                alert(response)
                 if (response.status == 200) {
                     return response.json()
                 } else {
-
+                    alert('pppp')
                 }
 
                 this.setState({ isLoading: false })
             }).then((responseJSON) => {
+                alert(JSON.stringify(responseJSON.msg))
                 this.setState({ isLoading: false })
-              
                 this.props.navigation.navigate('Home', { token: this.state.token });
 
             }).catch((error) => {

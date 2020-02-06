@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native'
 import LoadingCompoent from './loadingCompoent';
+import { FlatList } from 'react-native-gesture-handler';
 export default class DetailsComponent extends Component {
 
     constructor() {
@@ -8,13 +9,7 @@ export default class DetailsComponent extends Component {
         this.state = {
             tokendata: '',
             detailsData: undefined,
-            complexity: '',
-            photo: '',
-            name: '',
-            preparationTime: '',
-            firstName: '',
-            lastName: '',
-            isLoading: false
+            isLoading: false,
         }
     }
     componentDidMount() {
@@ -26,7 +21,7 @@ export default class DetailsComponent extends Component {
         this.getData(data.recipeId, token);
     }
 
-    getData(id, token) {
+    getData = (id, token) => {
         this.setState({ isLoading: true })
         fetch('http://35.160.197.175:3006/api/v1/recipe/' + id + '/details',
             {
@@ -49,13 +44,8 @@ export default class DetailsComponent extends Component {
 
                 this.setState({ detailsData: responseJSON });
 
-                this.setState({ complexity: this.state.detailsData.complexity })
-                this.setState({ photo: this.state.detailsData.photo });
-                this.setState({ name: this.state.detailsData.name });
-                this.setState({ preparationTime: this.state.detailsData.preparationTime });
-                this.setState({ firstName: this.state.detailsData.firstName });
-                this.setState({ lastName: this.state.detailsData.lastName });
-                console.log(this.state.photo)
+
+
                 console.log('========recpelistrecpelistrecpelist============================');
             }).catch((error) => {
                 console.log(error);
@@ -64,30 +54,47 @@ export default class DetailsComponent extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
-                <View style={styles.complexity}>
+        if (this.state.detailsData) {
+            return (
+                <View style={styles.container}>
+                    <LoadingCompoent loading={this.state.isLoading}></LoadingCompoent>
+                    <View style={styles.complexity}>
 
-                    <Text style={styles.complexText} >
-                        complexity:
-                        {this.state.complexity}
-                    </Text>
+                        <Text style={styles.complexText} >
+                            complexity:
+                        {this.state.detailsData.complexity}
+                        </Text>
+
+                    </View>
+                    <View style={styles.image}>
+                        <Image style={styles.recepeimg} source={{ uri: this.state.detailsData.photo }}></Image>
+                        <Text style={styles.text_name}>Name: {this.state.detailsData.name}</Text>
+                        <Text style={styles.text_name}>
+                            preparationTime :
+                        {this.state.detailsData.preparationTime}</Text>
+                        <Text style={styles.text_name}>
+                            Name : {this.state.detailsData.firstName}
+                            {this.state.detailsData.lastName} </Text>
+                        {/* <FlatList
+                            data={this.state.detailsData.metaTags}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View>
+                                        <Text>{item}</Text>
+                                    </View>
+                                )
+                            }}
+                        >
+
+                        </FlatList> */}
+                    </View>
 
                 </View>
-                <View style={styles.image}>
-                    <Image style={styles.recepeimg} source={{ uri: this.state.photo }}></Image>
-                    <Text style={styles.text_name}>Name: {this.state.name}</Text>
-                    <Text style={styles.text_name}>
-                        preparationTime :
-                        {this.state.preparationTime}</Text>
-                    <Text style={styles.text_name}>
-                        Name : {this.state.firstName}
-                        {this.state.lastName} </Text>
-                </View>
-
-            </View>
-        )
+            )
+        }
+        else {
+            return <View></View>
+        }
     }
 }
 
