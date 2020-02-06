@@ -27,9 +27,6 @@ export default class AddReciepeComponent extends Component {
 
         let token = this.props.navigation.state['params']['token']
         this.setState({ token: token });
-        console.log("123456789==123456789");
-        console.log(token);
-        console.log("123456789==123456789");
 
     }
 
@@ -41,9 +38,6 @@ export default class AddReciepeComponent extends Component {
         this.setState({
             tags: state
         })
-        console.log('submit');
-        console.log(this.state.tagsArray);
-        console.log('submit');
 
 
     };
